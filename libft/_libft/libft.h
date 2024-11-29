@@ -6,7 +6,7 @@
 /*   By: hduflos <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 09:40:58 by hduflos           #+#    #+#             */
-/*   Updated: 2024/11/28 12:06:13 by hduflos          ###   ########.fr       */
+/*   Updated: 2024/11/26 12:26:34 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -57,7 +57,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memchr(const void *str, int j, size_t size);
 int		ft_memcmp(const void *str1, const void *str2, size_t size);
-char	*get_next_line(int fd);
+char    *get_next_line(int fd);
 
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);

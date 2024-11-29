@@ -1,14 +1,12 @@
-
 # Répertoires
-LIBFT_DIR = libft
-SRC_DIR = .
-PRINTF_DIR = $(LIBFT_DIR)/ft_printf
+LIBFT_DIR = libft/_libft
+PRINTF_DIR = libft/ft_printf
 
 # Fichiers sources
-SERVER_SRCS = $(SRC_DIR)/server.c
-CLIENT_SRCS = $(SRC_DIR)/client.c
-SERVER_BONUS_SRCS = $(SRC_DIR)/server_bonus.c
-CLIENT_BONUS_SRCS = $(SRC_DIR)/client_bonus.c
+SERVER_SRCS = server.c
+CLIENT_SRCS = client.c
+SERVER_BONUS_SRCS = server_bonus.c
+CLIENT_BONUS_SRCS = client_bonus.c
 
 # Fichiers objets
 SERVER_OBJS = $(SERVER_SRCS:.c=.o)
@@ -22,7 +20,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 # Bibliothèques et headers
 LIBFT = $(LIBFT_DIR)/libft.a
-PRINTF = $(PRINTF_DIR)/ft_printf.a
+PRINTF = $(PRINTF_DIR)/libftprintf.a
 INC = minitalk.h $(LIBFT_DIR)/libft.h $(PRINTF_DIR)/ft_printf.h
 
 # Noms des exécutables
@@ -31,28 +29,31 @@ CLIENT = client
 SERVER_BONUS = server_bonus
 CLIENT_BONUS = client_bonus
 
-# Règle par défaut : compiler les deux exécutables
-all: $(LIBFT) $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
+# Règle par défaut : compiler les exécutables
+all: $(LIBFT) $(PRINTF) $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
 
-# Créer la bibliothèque libft et ft_printf en même temps
+# Créer la bibliothèque libft
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-# Création de l'exécutable serveur / client
-$(SERVER): $(SERVER_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(SERVER_OBJS) -L$(LIBFT_DIR) -lft
+# Créer la bibliothèque ft_printf
+$(PRINTF):
+	make -C $(PRINTF_DIR)
 
-$(CLIENT): $(CLIENT_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(CLIENT_OBJS) -L$(LIBFT_DIR) -lft
+# Créer les exécutables
+$(SERVER): $(SERVER_OBJS) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(SERVER_OBJS) -o $(SERVER) $(LIBFT) $(PRINTF)
 
-# Création de l'exécutable serveur / client bonus
-$(SERVER_BONUS): $(B_SERVER_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(B_SERVER_OBJS) -L$(LIBFT_DIR) -lft
+$(CLIENT): $(CLIENT_OBJS) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(CLIENT_OBJS) -o $(CLIENT) $(LIBFT) $(PRINTF)
 
-$(CLIENT_BONUS): $(B_CLIENT_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(B_CLIENT_OBJS) -L$(LIBFT_DIR) -lft
+$(SERVER_BONUS): $(B_SERVER_OBJS) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(B_SERVER_OBJS) -o $(SERVER_BONUS) $(LIBFT) $(PRINTF)
 
-# Compilation des fichiers .c en .o, avec dépendance aux en-têtes
+$(CLIENT_BONUS): $(B_CLIENT_OBJS) $(LIBFT) $(PRINTF)
+	$(CC) $(CFLAGS) $(B_CLIENT_OBJS) -o $(CLIENT_BONUS) $(LIBFT) $(PRINTF)
+
+# Règle pour générer les fichiers objets
 %.o: %.c $(INC)
 	$(CC) $(CFLAGS) -c $< -o $@
 

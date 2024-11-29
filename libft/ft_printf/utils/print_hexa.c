@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../ft_printf.h"
+#include "../ft_printf.h"
 
 static void	recursive_print_hexa(unsigned long n, char *base)
 {
