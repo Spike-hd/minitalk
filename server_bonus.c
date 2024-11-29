@@ -6,20 +6,47 @@
 /*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:15:38 by spike             #+#    #+#             */
-/*   Updated: 2024/11/28 11:25:08 by hduflos          ###   ########.fr       */
+/*   Updated: 2024/11/29 09:50:46 by spike            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 
+void	handle_character(char c, pid_t client, char **message, int *len)
+{
+	if (c == '\0')
+	{
+		ft_printf("%s\n", *message);
+		free(*message);
+		*message = NULL;
+		*len = 0;
+		kill(client, SIGUSR1);
+	}
+	else
+	{
+		char *new_message = malloc(*len + 2);
+		if (!new_message)
+			exit(1);
+		if (*message)
+		{
+			ft_memcpy(new_message, *message, *len);
+			free(*message);
+		}
+		new_message[*len] = c;
+		new_message[*len + 1] = '\0';
+		*message = new_message;
+		(*len)++;
+	}
+}
+
 void	handle_signal(int signal, siginfo_t *info, void *context)
 {
 	static char	c = 0;
 	static int	i = 0;
-	pid_t		client;
+	static char *message = NULL;
+	static int	len = 0;
 
 	(void)context;
-	client = info->si_pid;
 	if (signal == SIGUSR1)
 		signal = 1;
 	else
@@ -29,10 +56,7 @@ void	handle_signal(int signal, siginfo_t *info, void *context)
 	if (i == 8)
 	{
 		i = 0;
-		if (c == '\0')
-			kill(client, SIGUSR1);
-		else
-			ft_printf("%c", c);
+		handle_character(c, info->si_pid, &message, &len);
 		c = 0;
 	}
 }
