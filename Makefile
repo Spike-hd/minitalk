@@ -1,3 +1,4 @@
+
 # Répertoires
 LIBFT_DIR = libft/_libft
 PRINTF_DIR = libft/ft_printf
@@ -21,7 +22,7 @@ CFLAGS = -Wall -Wextra -Werror
 # Bibliothèques et headers
 LIBFT = $(LIBFT_DIR)/libft.a
 PRINTF = $(PRINTF_DIR)/libftprintf.a
-INC = minitalk.h $(LIBFT_DIR)/libft.h $(PRINTF_DIR)/ft_printf.h
+INC = minitalk.h $(PRINTF_DIR)/ft_printf.h $(LIBFT_DIR)/libft.h
 
 # Noms des exécutables
 SERVER = server
@@ -64,11 +65,13 @@ bonus: $(SERVER_BONUS) $(CLIENT_BONUS)
 clean:
 	rm -f $(SERVER_OBJS) $(CLIENT_OBJS) $(B_SERVER_OBJS) $(B_CLIENT_OBJS)
 	make -C $(LIBFT_DIR) clean
+	make -C $(PRINTF_DIR) clean
 
 # Nettoyage complet (objets + exécutables)
 fclean: clean
 	rm -f $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
 	make -C $(LIBFT_DIR) fclean
+	make -C $(PRINTF_DIR) fclean
 
 # Recompilation complète
 re: fclean all

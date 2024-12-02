@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:15:38 by spike             #+#    #+#             */
-/*   Updated: 2024/11/29 09:50:46 by spike            ###   ########.fr       */
+/*   Updated: 2024/12/02 12:51:06 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	handle_character(char c, pid_t client, char **message, int *len)
 {
+	char	*new_message;
+
 	if (c == '\0')
 	{
 		ft_printf("%s\n", *message);
@@ -24,7 +26,7 @@ void	handle_character(char c, pid_t client, char **message, int *len)
 	}
 	else
 	{
-		char *new_message = malloc(*len + 2);
+		new_message = malloc(*len + 2);
 		if (!new_message)
 			exit(1);
 		if (*message)
@@ -43,7 +45,7 @@ void	handle_signal(int signal, siginfo_t *info, void *context)
 {
 	static char	c = 0;
 	static int	i = 0;
-	static char *message = NULL;
+	static char	*message = NULL;
 	static int	len = 0;
 
 	(void)context;

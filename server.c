@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spike <spike@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hduflos <hduflos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:15:38 by spike             #+#    #+#             */
-/*   Updated: 2024/11/29 09:43:51 by spike            ###   ########.fr       */
+/*   Updated: 2024/12/02 12:08:34 by hduflos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	handle_character(char c, char **message, int *len)
 {
+	char	*new_message;
+
 	if (c == '\0')
 	{
 		ft_printf("%s\n", *message);
@@ -23,7 +25,7 @@ void	handle_character(char c, char **message, int *len)
 	}
 	else
 	{
-		char *new_message = malloc(*len + 2);
+		new_message = malloc(*len + 2);
 		if (!new_message)
 			exit(1);
 		if (*message)
